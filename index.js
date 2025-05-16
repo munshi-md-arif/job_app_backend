@@ -7,10 +7,10 @@ const MONGO_URL = "mongodb+srv://arifmunshi278:lGC0mA2aZCi9LPdC@cluster0.cnf5jqe
 const jobouter = require("./routes/job");
 const bodyParser = require("body-parser");
 
-const dotenv = require("dotenv");
-dotenv.config();
+// const dotenv = require("dotenv");
+// dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
