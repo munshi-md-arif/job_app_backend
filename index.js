@@ -1,23 +1,33 @@
 const express = require("express");
+
 const app = express();
-const mongose = require("mongoose");
-const port = 5000;
+const mongoose = require("mongoose");
+const port = 3400;
+const jobouter = require("./routes/job");
+const bodyParser = require("body-parser");
 
 const dotenv = require("dotenv");
 dotenv.config();
-mongose.connect(process.env.MONGO_URL, {
+
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log("Connected to MongoDB");
+    console.log(process.env.MONGO_URL, "Connected to MongoDB");
+    console.log("✅ Connected to MongoDB");
 }).catch((err) => {
-    console.log(err);
-})
+    console.error("❌ MongoDB connection failed:", err);
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api/jobs", jobouter);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.listen(process.env.PORT || port, () => {
-    console.log(`The server is listening on port ${port}`);
+app.listen(port, () => {
+    console.log(`🚀 Server started: http://localhost:${port}`);
 });
